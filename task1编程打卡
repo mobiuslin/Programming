@@ -1,0 +1,284 @@
+#关于单链表代码熟悉借鉴博客内容
+class Node(object):
+    def __init__(self, elem):
+        self.elem = elem
+        self.next = None
+        
+class SingleLinkList(object):
+    '''单链表'''
+    def __init__(self, node=None):
+        self.__head = node
+        
+    def is_empty(self):
+        return self.__head == None
+    
+    def length(self):
+        cur = self.__head
+        count = 0
+        while cur != None:
+            count += 1
+            cur = cur.next
+        return count
+    
+    def travel(self):
+        '''遍历列表'''
+        cur = self.__head
+        while cur != None:
+            print(cur.elem, end= ' ')
+            cur = cur.next
+        print("\n")
+        
+    def add(self, item):
+        '''链表头部添加元素'''
+        node = Node(item)
+        node.next = self.__head
+        self.__head = node
+        
+    def append(self, item):
+        '''链表尾部添加元素'''
+        node = Node(item)
+        if self.is_empty():
+            self.__head = node
+        else:
+            cur = self.__head
+            while cur.next != None:
+                cur = cur.next
+            cur.next = node
+    
+    def insert(self, pos, item):
+        '''指定位置添加元素'''
+        if pos <= 0:
+            self.add(item)
+        elif pos > self.length() - 1:
+            self.append(item)
+        else:
+            per = self.__head
+            count = 0
+            while count < pos - 1:
+                count += 1
+                per = per.next
+            node = Node(item)
+            node.next = per.next
+            per.next = node
+            
+    def remove(self, item):
+        '''删除节点'''
+        cur = self.__head
+        pre = None
+        while cur != None:
+            if cur.elem == item:
+                '''先判断是否为头节点'''
+                if cur == self.__head:
+                    self.__head = cur.next
+                else:
+                    pre.next = cur.next
+                break
+            else:
+                pre = cur
+                cur = cur.next
+    
+    def search(self, item):
+        '''查找节点是否存在'''
+        cur = self.__head
+        while not cur:
+            if cur.elem == item:
+                return True
+            else:
+                cur = cur.next
+        return False
+    
+if __name__ == "__main__":
+    node = Node(100)
+    ll = SingleLinkList()
+    print(ll.is_empty())
+    print(ll.length())
+
+    ll.append(3)
+    ll.append(4)
+    ll.add(9989)
+    ll.insert(-3,110)
+    ll.insert(4,111)
+    
+    print(ll.is_empty())
+    print(ll.length())
+    
+    ll.travel()
+    ll.remove(111)
+    ll.travel()
+'''
+循环单链表是单链表的一种变形，其最后一个结点的next域不再是None，而是指向表的第一个结点。
+在循环列表对象中记录表尾结点，可以实现O(1)时间的表头/表尾插入和O(1)时间的表头删除。
+由于循环链表中的结点连成一个圈，哪个结点是表头或表尾，主要是概念问题，从表的形态上无法区分。
+以下实现了一个简单的循环单链表类，其中包含了几个典型的操作
+
+操作
+
+
+is_empty() 判断链表是否为空
+length() 返回链表的长度
+travel() 遍历
+add(item) 在头部添加一个节点
+append(item) 在尾部添加一个节点
+insert(pos, item) 在指定位置pos添加节点
+remove(item) 删除一个节点
+search(item) 查找节点是否存在
+代码已阅借鉴博客内容
+'''
+
+
+class Node(object):
+    """节点"""
+    def __init__(self, item):
+        self.item = item
+        self.next = None
+
+
+class SinCycLinkedlist(object):
+    """单向循环链表"""
+    def __init__(self):
+        self._head = None
+
+    def is_empty(self):
+        """判断链表是否为空"""
+        return self._head == None
+
+    def length(self):
+        """返回链表的长度"""
+        # 如果链表为空，返回长度0
+        if self.is_empty():
+            return 0
+        count = 1
+        cur = self._head
+        while cur.next != self._head:
+            count += 1
+            cur = cur.next
+        return count
+
+    def travel(self):
+        """遍历链表"""
+        if self.is_empty():
+            return
+        cur = self._head
+        print (cur.item)
+        while cur.next != self._head:
+            cur = cur.next
+            print (cur.item)
+        print ("")
+
+
+    def add(self, item):
+        """头部添加节点"""
+        node = Node(item)
+        if self.is_empty():
+            self._head = node
+            node.next = self._head
+        else:
+            #添加的节点指向_head
+            node.next = self._head
+            # 移到链表尾部，将尾部节点的next指向node
+            cur = self._head
+            while cur.next != self._head:
+                cur = cur.next
+            cur.next = node
+            #_head指向添加node的
+            self._head = node
+
+    def append(self, item):
+        """尾部添加节点"""
+        node = Node(item)
+        if self.is_empty():
+            self._head = node
+            node.next = self._head
+        else:
+            # 移到链表尾部
+            cur = self._head
+            while cur.next != self._head:
+                cur = cur.next
+            # 将尾节点指向node
+            cur.next = node
+            # 将node指向头节点_head
+            node.next = self._head
+
+    def insert(self, pos, item):
+        """在指定位置添加节点"""
+        if pos <= 0:
+            self.add(item)
+        elif pos > (self.length()-1):
+            self.append(item)
+        else:
+            node = Node(item)
+            cur = self._head
+            count = 0
+            # 移动到指定位置的前一个位置
+            while count < (pos-1):
+                count += 1
+                cur = cur.next
+            node.next = cur.next
+            cur.next = node
+
+    def remove(self, item):
+        """删除一个节点"""
+        # 若链表为空，则直接返回
+        if self.is_empty():
+            return
+        # 将cur指向头节点
+        cur = self._head
+        pre = None
+        # 若头节点的元素就是要查找的元素item
+        if cur.item == item:
+            # 如果链表不止一个节点
+            if cur.next != self._head:
+                # 先找到尾节点，将尾节点的next指向第二个节点
+                while cur.next != self._head:
+                    cur = cur.next
+                # cur指向了尾节点
+                cur.next = self._head.next
+                self._head = self._head.next
+            else:
+                # 链表只有一个节点
+                self._head = None
+        else:
+            pre = self._head
+            # 第一个节点不是要删除的
+            while cur.next != self._head:
+                # 找到了要删除的元素
+                if cur.item == item:
+                    # 删除
+                    pre.next = cur.next
+                    return
+                else:
+                    pre = cur
+                    cur = cur.next
+            # cur 指向尾节点
+            if cur.item == item:
+                # 尾部删除
+                pre.next = cur.next
+
+    def search(self, item):
+        """查找节点是否存在"""
+        if self.is_empty():
+            return False
+        cur = self._head
+        if cur.item == item:
+            return True
+        while cur.next != self._head:
+            cur = cur.next
+            if cur.item == item:
+                return True
+        return False
+
+if __name__ == "__main__":
+    ll = SinCycLinkedlist()
+    ll.add(1)
+    ll.add(2)
+    ll.append(3)
+    ll.insert(2, 4)
+    ll.insert(4, 5)
+    ll.insert(0, 6)
+    print ("length:",ll.length())
+    ll.travel()
+    print (ll.search(3))
+    print (ll.search(7))
+    ll.remove(1)
+    print ("length:",ll.length())
+    ll.travel()
