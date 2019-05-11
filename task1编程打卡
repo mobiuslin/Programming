@@ -1,4 +1,117 @@
-#关于单链表代码熟悉借鉴博客内容
+'''
+数组1234还未整理完，仅做完联系
+'''
+
+
+'''
+ex01
+'''
+###############
+#
+# @lc app=leetcode.cn id=15 lang=python
+#
+# [15] 三数之和
+#
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        list_nums = []
+        nums.sort()
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                break
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            j = i + 1
+            k = len(nums) - 1
+            while j < k:
+                if nums[j] + nums[k] == -nums[i]:
+                    list_nums.append([nums[i],nums[j],nums[k]])
+                    while j<k and nums[j]==nums[j+1]:j+=1
+                    while j<k and nums[k]==nums[k-1]:k-=1
+                    j+=1
+                    k-=1
+                elif nums[j]+nums[k]<-nums[i]:
+                    j+=1
+                else:
+                    k-=1
+        return list_nums
+###############
+'''
+ex02
+'''
+###############
+#
+# @lc app=leetcode.cn id=169 lang=python
+#
+# [169] 求众数
+#
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        len_=len(nums)
+        cnt=1
+        cnt_=1
+        j=0
+        j_max=0
+        for i in range(1,len_):
+            if nums[i]==nums[i-1]:
+                cnt+=1
+                j=i
+            if nums[i]!=nums[i-1]:
+                cnt=1
+            if cnt_<cnt:
+                cnt_=cnt
+                j_max=j
+        return nums[j_max]
+###############
+'''
+ex03
+'''
+###############
+#
+# @lc app=leetcode.cn id=41 lang=python
+#
+# [41] 缺失的第一个正数
+#
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """ 
+        nums=set(nums)
+        nums=list(nums)
+        nums.sort()
+        len_=len(nums)
+        j=1
+        j0=1
+        if len_>0:
+            for i in range(len_):
+                if nums[i]>0:
+                    if nums[i]==j:
+                        j0=j
+                        j0+=1
+                    else:
+                        return j0
+                        break
+                    j+=1
+                if i==len_-1:
+                    return j0
+        else:
+            return 1
+###############
+
+Task2
+#2.1.1关于单链表代码熟悉借鉴博客内容
+#####################
 class Node(object):
     def __init__(self, elem):
         self.elem = elem
@@ -105,8 +218,9 @@ if __name__ == "__main__":
     ll.travel()
     ll.remove(111)
     ll.travel()
+#####################
 '''
-循环单链表是单链表的一种变形，其最后一个结点的next域不再是None，而是指向表的第一个结点。
+2.1.2循环单链表是单链表的一种变形，其最后一个结点的next域不再是None，而是指向表的第一个结点。
 在循环列表对象中记录表尾结点，可以实现O(1)时间的表头/表尾插入和O(1)时间的表头删除。
 由于循环链表中的结点连成一个圈，哪个结点是表头或表尾，主要是概念问题，从表的形态上无法区分。
 以下实现了一个简单的循环单链表类，其中包含了几个典型的操作
@@ -125,7 +239,7 @@ search(item) 查找节点是否存在
 代码已阅借鉴博客内容
 '''
 
-
+#####################
 class Node(object):
     """节点"""
     def __init__(self, item):
@@ -282,3 +396,74 @@ if __name__ == "__main__":
     ll.remove(1)
     print ("length:",ll.length())
     ll.travel()
+#####################
+'''
+2.2翻转链表
+参考博客中的图示理解
+https://blog.csdn.net/weixin_39561100/article/details/79818949
+'''
+#####################
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if pHead == None or pHead.next == None:
+            return pHead  
+        cur = pHead 
+        tmp = None
+        newhead = None  
+        while cur:  
+            tmp = cur.next   
+            cur.next = newhead  
+            newhead = cur
+            cur = tmp  
+        return newhead
+# 修改原链表
+class Solution:
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head
+        Node = None
+        while head:
+            p = head
+            head = head.next
+            p.next = Node
+            Node = p
+        return Node
+#####################     
+'''
+2.3合并两个有序链表
+非递归思路 用while循环判断两个链表节点的值，取较小的，直到一个链表为空，循环结束，在循环结束时判断哪个链表为空
+直接在链表的head节点上加上
+'''
+#####################
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        head = ListNode(0)
+        first = head
+        while l1 != None and l2 != None:
+            if l1.val <= l2.val:
+                head.next = ListNode(l1.val)
+                l1 = l1.next
+            else:
+                head.next = ListNode(l2.val)
+                l2 = l2.next
+            head = head.next
+        if l1 != None:
+            head.next = l1
+        if l2 != None:
+            head.next = l2
+        return first.next
+#####################
+'''
+2.3递归想法
+'''
