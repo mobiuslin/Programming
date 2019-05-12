@@ -1,0 +1,22 @@
+#
+# @lc app=leetcode.cn id=26 lang=python
+#
+# [26] 删除排序数组中的重复项
+#
+class Solution:
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        index=[]
+        for i in range(len(nums)):
+            if nums[i]==nums[i-1]:
+                index.append(nums[i])
+        if len(index)==len(nums):
+            return 1
+        for j in index:
+            nums.remove(j)
+        len_=len(nums)
+        return len_
+        
