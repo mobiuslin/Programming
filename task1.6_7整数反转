@@ -1,0 +1,25 @@
+#
+# @lc app=leetcode.cn id=7 lang=python
+#
+# [7] 整数反转
+#
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        min_=-(2<<31)#leetcode应该为30才可以过，但可能是其bug，左移31位并未溢出
+        max_=(2<<31)-1
+        if x>=min_ and x<=max_:
+            x0=str(x)
+            if x0[0]=='-':
+                x_num=int(x0[:0:-1])
+                x_num=-x_num
+            if x0[0]!='-':
+                x_num=int(x0[::-1])
+            if x_num<min_ or x_num>max_:
+                return 0
+        else:
+            return 0
+        return x_num
