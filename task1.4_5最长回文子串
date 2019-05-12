@@ -1,0 +1,28 @@
+#
+# @lc app=leetcode.cn id=5 lang=python
+#
+# [5] 最长回文子串
+#
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        len_=len(s)
+        i=len_
+        len_max=0
+        while i>=1:
+            for j in range(0,len_-i+1):
+                if j==0 and s[j:j+i]==s[j+i-1::-1]:
+                    if len_max<len(s[j:j+i]):
+                        len_max=len(s[j:j+i])
+                        max_s=s[j:j+i]
+                        return s[j:i+j]
+                if j!=0 and s[j:j+i]==s[j+i-1:j-1:-1]:
+                    if len_max<len(s[j:j+i]):
+                        len_max=len(s[j:j+i])
+                        max_s=s[j:j+i]
+                        return s[j:i+j]
+            i-=1
+        return '' 
