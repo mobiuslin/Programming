@@ -1,0 +1,77 @@
+'''
+3.1编程实现斐波那契数列求值 f(n)=f(n-1)+f(n-2)
+'''
+# 递归法
+#
+# @lc app=leetcode.cn id=509 lang=python
+#
+# [509] 斐波那契数
+#
+class Solution(object):
+    def fib(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        def F(N):
+            if N==0:
+                return 0
+            elif N==1 or N==2:
+                return 1
+            else:
+                return F(N-1)+F(N-2)
+        return F(N)
+        
+        
+        
+'''
+3.2编程实现求阶乘 n!
+'''
+# 递归法
+def factorial(n):
+    if n == 1:
+        return 1
+    else:
+        return n*factorial(n-1)
+# 迭代法
+def factorial_diedai(n):
+    result = n
+    for i in range(1,n):
+        result *= 1
+    return result
+number = int(input());
+result = factorial(number)
+print(" %d 的阶乘是 %d" % (number, result))
+
+'''
+3.3编程实现一组数据集合的全排列
+取出数组中第一个元素放到最后，即a[1]与a[n]交换，然后递归求a[n-1]的全排列
+
+1）如果数组只有一个元素n=1，a={1} 则全排列就是{1}
+2）如果数组有两个元素n=2，a={1,2} 则全排列是：
+{2,1}--a[1]与a[2]交换。交换后求a[2-1]={2}的全排列，归结到1)
+{1,2}--a[2]与a[2]交换。交换后求a[2-1]={1}的全排列，归结到1)
+3）如果数组有三个元素n=3，a={1,2,3} 则全排列是
+{{2,3},1}--a[1]与a[3]交换。后求a[3-1]={2,3}的全排列，归结到2）
+{{1,3},2)--a[2]与a[3]交换。后求a[3-1]={1,3}的全排列，归结到2）
+{{1,2},3)--a[3]与a[3]交换。后求a[3-1]={1,2}的全排列，归结到2）
+...
+参考博客https://blog.csdn.net/zhoufen12345/article/details/53560099 
+'''
+count = 0
+def perm(n, begin, end):
+    global count
+    if begin >= end:
+        print(n)
+        count += 1
+    else:
+        i = begin
+        for num in range(begin, end):
+            n[num], n[i] = n[i], n[num]
+            perm(n, begin+1, end)
+            n[num], n[i] = n[i], n[num]
+            
+n = [1, 2, 3, 4]
+perm(n, 0, len(n))
+print(count)
+
