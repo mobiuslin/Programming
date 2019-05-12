@@ -1,0 +1,22 @@
+#
+# @lc app=leetcode.cn id=4 lang=python
+#
+# [4] 寻找两个有序数组的中位数
+#
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        nums1.extend(nums2)
+        nums1.sort()
+        len_=len(nums1)
+        if len_==2:
+            mid=(nums1[0]+nums1[1])/2
+        elif len_%2==0:
+            mid=(nums1[len_//2]+nums1[len_//2-1])/2
+        else:
+            mid=nums1[len_//2]
+        return mid   
